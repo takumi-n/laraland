@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\LessonController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -31,5 +32,6 @@ Route::get('/courses',  [CourseController::class, 'list'])->middleware(['auth', 
 Route::get('/courses/{id}',  [CourseController::class, 'show'])->middleware(['auth', 'verified'])->name('showCourse');
 Route::post('/courses/{id}/attend',  [CourseController::class, 'attend'])->middleware(['auth', 'verified'])->name('attendCourse');
 Route::post('/courses/{id}/quit',  [CourseController::class, 'quit'])->middleware(['auth', 'verified'])->name('quitCourse');
+Route::get('/lessons/{id}',  [LessonController::class, 'show'])->middleware(['auth', 'verified'])->name('showLesson');
 
 require __DIR__.'/auth.php';

@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head } from "@inertiajs/inertia-vue3";
+import { Head, Link } from "@inertiajs/inertia-vue3";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { Inertia } from "@inertiajs/inertia";
 
@@ -56,6 +56,11 @@ const submit = () => {
                                 <th scope="col" class="py-3 px-6">ステップ</th>
                                 <th scope="col" class="py-3 px-6">タイトル</th>
                                 <th scope="col" class="py-3 px-6">所要時間</th>
+                                <th
+                                    scope="col"
+                                    class="py-3 px-6"
+                                    v-if="attended"
+                                ></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,6 +77,13 @@ const submit = () => {
                                 <td class="py-4 px-6">{{ lesson.title }}</td>
                                 <td class="py-4 px-6">
                                     {{ lesson.required_time }}
+                                </td>
+                                <td v-if="attended">
+                                    <Link
+                                        :href="route('showLesson', lesson.id)"
+                                    >
+                                        <PrimaryButton>学習開始</PrimaryButton>
+                                    </Link>
                                 </td>
                             </tr>
                         </tbody>
