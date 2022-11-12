@@ -35,7 +35,7 @@ const submit = () => {
                     </div>
                     <div class="flex justify-end">
                         <div v-if="attended" class="font-bold text-green-600">
-                            受講済みです
+                            受講しています
                         </div>
                         <form @submit.prevent="submit" v-else>
                             <PrimaryButton>登録する</PrimaryButton>
