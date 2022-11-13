@@ -3,41 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Course;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Http\Request;
+use App\Usecases\Course\AttendAction;
+use App\Usecases\Course\FindAction;
+use App\Usecases\Course\ListAction;
+use App\Usecases\Course\QuitAction;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class CourseController extends Controller
 {
-    public function list()
+    public function list(ListAction $usecase)
     {
-        $courses = Course::all();
-        return Inertia::render('Courses', [
-            'courses' => $courses,
-        ]);
+        $data = $usecase();
+        return Inertia::render('Courses', $data);
     }
 
-    public function show($id) {
-        $course = Course::find($id);
-        $lessons = $course->lessons()->orderBy('step_no', 'asc')->get();
-        $attended = Auth::user()->courses->contains($course->id);
-
-        return Inertia::render('Course', [
-            'course' => $course,
-            'attended' => $attended,
-            'lessons' => $lessons,
-        ]);
+    public function show(int $id, FindAction $usecase) {
+        $data = $usecase($id);
+        return Inertia::render('Course', $data);
     }
 
-    public function attend($id) {
-        Auth::user()->courses()->attach($id);
+    public function attend(int $id, AttendAction $usecase) {
+        $usecase(Auth::user(), $id);
         return redirect(RouteServiceProvider::HOME);
     }
 
-    public function quit($id) {
-        Auth::user()->courses()->detach($id);
+    public function quit(int $id, QuitAction $usecase) {
+        $usecase(Auth::user(), $id);
         return redirect(RouteServiceProvider::HOME);
     }
 }
