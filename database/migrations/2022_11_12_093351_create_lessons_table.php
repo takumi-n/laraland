@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('required_time');
             $table->integer('step_no');
             $table->foreignId('course_id')->constrainted();
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
         });
     }
 
