@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserAttendCourse;
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use App\Providers\RouteServiceProvider;
 use App\Usecases\Course\AttendAction;
 use App\Usecases\Course\FindAction;
@@ -26,6 +28,7 @@ class CourseController extends Controller
 
     public function attend(int $id, AttendAction $usecase) {
         $usecase(Auth::user(), $id);
+        UserAttendCourse::dispatch(Auth::user(), Course::find($id));
         return redirect(RouteServiceProvider::HOME);
     }
 
